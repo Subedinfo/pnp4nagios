@@ -2,8 +2,8 @@
 /**
  * Ajax controller.
  *
- * @package    PNP4Nagios 
- * @author     Joerg Linge 
+ * @package    PNP4Nagios
+ * @author     Joerg Linge
  * @license    GPL
  */
 class Ajax_Controller extends System_Controller  {
@@ -15,7 +15,7 @@ class Ajax_Controller extends System_Controller  {
     }
 
     public function index(){
-        url::redirect("start", 302); 
+        url::redirect("start", 302);
     }
 
     public function search() {
@@ -39,7 +39,7 @@ class Ajax_Controller extends System_Controller  {
             $this->session->set('timerange-reset', 1);
         }
     }
-	
+
 	public function filter($what){
         $received_token = $_POST['csrf_token'];
         $token = Security::token();
@@ -50,11 +50,11 @@ class Ajax_Controller extends System_Controller  {
         }
 
         if($what == 'set-sfilter'){
-            $this->session->set('sfilter', $_POST['sfilter']);
+            $this->session->set('sfilter', htmlspecialchars($_POST['sfilter']));
         }elseif($what == 'set-spfilter'){
-			$this->session->set('spfilter', $_POST['spfilter']);
-		}elseif($what == 'set-pfilter'){
-            $this->session->set('pfilter', $_POST['pfilter']);
+            $this->session->set('spfilter', htmlspecialchars($_POST['spfilter']));
+        }elseif($what == 'set-pfilter'){
+            $this->session->set('pfilter', htmlspecialchars($_POST['pfilter']));
         }
     }
 
@@ -80,6 +80,7 @@ class Ajax_Controller extends System_Controller  {
                 }
             }
         }elseif($action == "add"){
+
             $received_token = $_POST['csrf_token'];
             $token = Security::token();
 
@@ -88,7 +89,8 @@ class Ajax_Controller extends System_Controller  {
                 return false;
             }
 
-            $item = $_POST['item'];
+            $item = htmlspecialchars($_POST['item']);
+
             $basket = $this->session->get("basket");
             if(!is_array($basket)){
                 $basket[] = "$item";
@@ -109,6 +111,7 @@ class Ajax_Controller extends System_Controller  {
                       );
             }
         }elseif($action == "sort"){
+
             $received_token = $_POST['csrf_token'];
             $token = Security::token();
 
@@ -117,7 +120,8 @@ class Ajax_Controller extends System_Controller  {
                 return false;
             }
 
-            $items = $_POST['items'];
+            $items = htmlspecialchars($_POST['items']);
+
             $basket = explode(',', $items);
             array_pop($basket);
             $this->session->set("basket", $basket);
@@ -141,7 +145,7 @@ class Ajax_Controller extends System_Controller  {
             }
 
             $basket = $this->session->get("basket");
-            $item_to_remove = $_POST['item'];
+            $item_to_remove = htmlspecialchars($_POST['item']);
             $new_basket = array();
             foreach($basket as $item){
                 if($item ==  $item_to_remove){
