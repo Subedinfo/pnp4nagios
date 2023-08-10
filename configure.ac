@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.61)
-AC_INIT(pnp, 0.6.26, https://github.com/orgs/pnp4nagios/discussions)
+AC_INIT(pnp, 0.6.26, pnp4nagios-devel@lists.sourceforge.net)
 AC_CONFIG_SRCDIR(src/)
 AC_CONFIG_HEADERS(include/config.h:include/config.h.in)
 AC_PREFIX_DEFAULT(/usr/local/pnp4nagios)
@@ -12,8 +12,8 @@ AC_DEFINE([DEFAULT_NAGIOS_GROUP], [nagios], [Default Nagios Group])
 
 PKG_NAME=pnp4nagios
 PKG_VERSION="0.6.26"
-PKG_HOME_URL="https://github.com/pnp4nagios"
-PKG_REL_DATE="05-28-2023"
+PKG_HOME_URL="http://www.pnp4nagios.org/pnp/start"
+PKG_REL_DATE="08-21-2017"
 AC_SUBST(PKG_NAME)
 AC_SUBST(PKG_VERSION)
 AC_SUBST(PKG_HOME_URL)
@@ -45,6 +45,7 @@ AC_PATH_PROG(CP,cp)
 AC_HEADER_STDC
 AC_HEADER_DIRENT
 AC_HEADER_SYS_WAIT
+#AC_CHECK_HEADERS(netinet/in.h string.h sys/socket.h unistd.h stdio.h stdlib.h getopt.h signal.h)
 AC_CHECK_HEADERS(dirent.h stdio.h errno.h unistd.h syslog.h signal.h stdlib.h dirent.h string.h pthread.h getopt.h grp.h pwd.h sys/mman.h sys/types.h sys/wait.h sys/stat.h sys/socket.h sys/loadavg.h netinet/in.h fcntl.h limits.h)
 
 # Checks for typedefs, structures, and compiler characteristics.
@@ -70,7 +71,7 @@ AC_C_CONST
 
 dnl Layout Methods
 layout="default"
-AC_ARG_WITH(layout,[  --with-layout=[default,debian,rpm] sets directory layout],layout=$withval)
+AC_ARG_WITH(layout,[  --with-layout=\[default,debian\] sets directory layout],layout=$withval)
 
 case $layout in
 	debian)
@@ -96,25 +97,6 @@ case $layout in
 		PERFDATA_LOG="\${prefix}/var/perfdata.log"
 		PERFDATA_DIR="\${prefix}/share/perfdata"
 		PERFDATA_SPOOL_DIR="\${prefix}/var/spool/perfdata"
-	;;
-	rpm)
-		prefix="/usr"
-		exec-prefix="\${prefix}"
-		bindir="\${prefix}/bin"
-		sbindir="\${prefix}/sbin"
-		includedir="/usr/include"
-		program-prefix=" --disable-dependency-tracking"
-		sysconfdir="/etc/pnp4nagios"
-		localstatedir="\${prefix}/var"
-		libexecdir="\${prefix}/libexec"
-		datarootdir="\${prefix}/share/pnp4nagios"
-		libdir="\${prefix}/lib64/pnp4nagios"
-		mandir="\${prefix}/share/man"
-		infodir="\${prefix}/share/info"
-		PERFDATA_LOG="/var/spool/nagios/perfdata.log"
-		PERFDATA_DIR="\${prefix}/share/pnp4nagios/perfdata"
-		PERFDATA_SPOOL_DIR="\${prefix}/var/spool/nagios"
-		sharedstatedir=/var/lib
 	;;
 	default)
 		PERFDATA_LOG="${localstatedir}/perfdata.log"

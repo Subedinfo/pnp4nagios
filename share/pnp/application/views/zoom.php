@@ -69,7 +69,7 @@ if(!empty($tpl)){
    $srv = urlencode($srv);
     echo "<img src=\"image?source=$source"
 	."&host=$host"
-	."&srv=" . urlencode($srv)
+	."&srv=$srv"
 	."&view=$view"
 	."&start=$start"
 	."&end=$end"

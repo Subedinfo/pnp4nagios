@@ -29,13 +29,13 @@ class System_Controller extends Template_Controller {
         $this->view              = pnp::clean($this->input->get('view', ""));
         $this->host              = pnp::clean($this->input->get('host',NULL));
         $this->service           = pnp::clean($this->input->get('srv',NULL));
-        $this->source            = intval(pnp::clean($this->input->get('source',NULL)));
+        $this->source            = pnp::clean($this->input->get('source',NULL));
         $this->version           = pnp::clean($this->input->get('version',NULL));
         $this->tpl               = pnp::clean($this->input->get('tpl'));
         $this->controller        = Router::$controller;
 
         $this->data->getTimeRange($this->start,$this->end,$this->view);
-	if(! in_array(Router::$controller, array("image", "image_special", "xport"))){
+        if(Router::$controller != "image" && Router::$controller != "image_special"){
             $this->session = Session::instance();
 
             # Session withou theme info

@@ -7,7 +7,7 @@ DATAROOTDIR=@datarootdir@
 
 CP=@CP@
 
-all html compile:
+all html:
 
 clean:
 	-rm -f npcd.8
