@@ -41,6 +41,14 @@ class Ajax_Controller extends System_Controller  {
     }
 
 	public function filter($what){
+        $received_token = $_POST['csrf_token'];
+        $token = Security::token();
+
+        if (!Security::check($received_token, $token)){
+            echo "CSRF Token invalid";
+            return false;
+        }
+
         if($what == 'set-sfilter'){
             $this->session->set('sfilter', htmlspecialchars($_POST['sfilter']));
         }elseif($what == 'set-spfilter'){
@@ -72,7 +80,17 @@ class Ajax_Controller extends System_Controller  {
                 }
             }
         }elseif($action == "add"){
+
+            $received_token = $_POST['csrf_token'];
+            $token = Security::token();
+
+            if (!Security::check($received_token, $token)){
+                echo "CSRF Token invalid";
+                return false;
+            }
+
             $item = htmlspecialchars($_POST['item']);
+
             $basket = $this->session->get("basket");
             if(!is_array($basket)){
                 $basket[] = "$item";
@@ -93,7 +111,17 @@ class Ajax_Controller extends System_Controller  {
                       );
             }
         }elseif($action == "sort"){
+
+            $received_token = $_POST['csrf_token'];
+            $token = Security::token();
+
+            if (!Security::check($received_token, $token)){
+                echo "CSRF Token invalid";
+                return false;
+            }
+
             $items = htmlspecialchars($_POST['items']);
+
             $basket = explode(',', $items);
             array_pop($basket);
             $this->session->set("basket", $basket);
@@ -108,6 +136,14 @@ class Ajax_Controller extends System_Controller  {
                       );
             }
         }elseif($action == "remove"){
+            $received_token = $_POST['csrf_token'];
+            $token = Security::token();
+
+            if (!Security::check($received_token, $token)){
+                echo "CSRF Token invalid";
+                return false;
+            }
+
             $basket = $this->session->get("basket");
             $item_to_remove = htmlspecialchars($_POST['item']);
             $new_basket = array();
